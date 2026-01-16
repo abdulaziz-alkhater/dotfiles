@@ -42,14 +42,27 @@ return {
 ## Active Configuration
 
 - **Theme:** Gruvbox
-- **AI Assistant:** Avante with DeepSeek backend (requires `DEEPSEEK_API_KEY` env var)
+- **AI Assistant:** Avante with LM Studio (primary) and DeepSeek (secondary) backends
 - **File Explorer:** Snacks.nvim (`<C-n>` to toggle)
-- **Navigation:** vim-tmux-navigator for seamless Tmux pane switching
-- **Debugger:** DAP keymaps configured in `config/keymaps.lua`
+- **Navigation:** vim-tmux-navigator (`<C-h/j/k/l>` for pane switching)
+
+## Custom Keybindings
+
+| Key | Action |
+|-----|--------|
+| `;` | Enter command mode |
+| `<Leader>db` | Toggle breakpoint |
+| `<Leader>dd` | Set conditional breakpoint |
+| `<Leader>dl` | Step into |
+| `<Leader>dj` | Step over |
+| `<Leader>dk` | Step out |
+| `<Leader>d<space>` | Continue |
+| `<Leader>de` | Terminate debugger |
+| `<Leader>dr` | Run last |
 
 ## LazyVim Extras Enabled
 
-From `lazyvim.json`: Avante, Copilot, CMake, Rust
+From `lazyvim.json`: Avante, CMake, Rust
 
 ## Code Formatting
 

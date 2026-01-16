@@ -1,12 +1,23 @@
 return {
   "yetone/avante.nvim",
   opts = {
-    provider = "lmstudio",
+    provider = "lmstudio_qwen",
     providers = {
-      lmstudio = {
+      lmstudio_qwen = {
         __inherited_from = "openai",
         api_key_name = "LM_STUDIO_API_KEY",
-        endpoint = "http://127.0.0.1:1234/v1",
+        endpoint = "http://192.168.1.212:1234/v1",
+        model = "nqwen/qwen3-coder-30b",
+        timeout = 30000,
+        extra_request_body = {
+          temperature = 0.7,
+          max_tokens = 8192,
+        },
+      },
+      lmstudio_nematron = {
+        __inherited_from = "openai",
+        api_key_name = "LM_STUDIO_API_KEY",
+        endpoint = "http://192.168.1.212:1234/v1",
         model = "nvidia/nemotron-3-nano",
         timeout = 30000,
         extra_request_body = {
