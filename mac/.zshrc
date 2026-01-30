@@ -11,7 +11,7 @@ fi
 source "${ZINIT_HOME}/zinit.zsh"
 
 export DOTNET_ROOT=$HOME/.dotnet
-PATH=$PATH:/home/abdulaziz/.local/scripts:/home/abdulaziz/.local/bin:DOTNET_ROOT:DOTNET_ROOT/tools:/home/abdulaziz/.cargo/bin:/home/abdulaziz/Applications
+PATH=$PATH:/home/abdulaziz/.local/bin:DOTNET_ROOT:DOTNET_ROOT/tools:/Users/abdulaziz/.cargo/bin
 
 # Set editor environment variable
 export EDITOR='nvim'
@@ -19,7 +19,7 @@ export VISUAL='nvim'
 export SYSTEMD_EDITOR='nvim'
 
 # Add in oh-my-posh
-eval "$(oh-my-posh init zsh --config 'negligible')"
+eval "$(oh-my-posh init zsh --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/negligible.omp.json')"
 
 # Add in zsh plugins
 zinit light zsh-users/zsh-syntax-highlighting
@@ -85,8 +85,6 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 export path
 
 set -o vi 
-
-
 # Aliases
 alias ls='ls --color'
 alias vim="nvim"
@@ -99,21 +97,6 @@ alias lt="eza -T --icons=always"
 alias ltd="eza -TD"
 alias cat="bat"
 alias get-idf='. $HOME/esp/esp-idf/export.sh'
-
-# Suffix Aliases
-alias -s c="$EDITOR"
-alias -s cpp="$EDITOR"
-alias -s rs="$EDITOR"
-alias -s json="jless"
-alias -s md="bat"
-alias -s mov="open"
-alias -s png="open"
-alias -s mp4="open"
-alias -s yaml="bat -l yaml"
-
-# Global Aliases
-alias -g INC="-S --needed --noconfirm"
-alias -g C="| wl-copy"
 
 # Shell Integrations
 eval "$(fzf --zsh)"
@@ -138,23 +121,15 @@ fastfetch
 
 # include the script to handle the Anthropic API key for Avante 
 
-source ~/.config/api/api_keys.sh
+source ~/.avante-anthropic-api-key.sh
 # 
 # 
 # . "$HOME/.local/share/../bin/env"
 
 
 # Added by LM Studio CLI (lms)
-export PATH="$PATH:/home/abdulaziz/.lmstudio/bin"
+export PATH="$PATH:/Users/abdulaziz/.lmstudio/bin"
 # End of LM Studio CLI section
 
-# For pyTorch
-export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init --path)"
-eval "$(pyenv virtualenv-init -)"
 
-export ROCM_PATH=/opt/rocm
-export HSA_OVERRIDE_GFX_VERSION=10.3.0
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - zsh)"
+. "$HOME/.local/bin/env"
