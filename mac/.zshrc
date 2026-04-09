@@ -133,3 +133,5 @@ export PATH="$PATH:/Users/abdulaziz/.lmstudio/bin"
 
 
 . "$HOME/.local/bin/env"
+
+export STM32CubeMX_PATH=/Applications/STMicroelectronics/STM32CubeMX.app/Contents/Resources
