@@ -1,0 +1,3 @@
+#!/bin/zsh
+
+/usr/bin/osascript -e 'tell application "Safari" to make new document'
