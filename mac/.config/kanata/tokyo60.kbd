@@ -2,7 +2,6 @@
   process-unmapped-keys yes
 )
 
-;; (defcfg)
 
 (defsrc
   lctl a s d f j k l ;
