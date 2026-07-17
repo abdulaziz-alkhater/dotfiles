@@ -19,7 +19,7 @@ export VISUAL='nvim'
 export SYSTEMD_EDITOR='nvim'
 
 # Add in oh-my-posh
-eval "$(oh-my-posh init zsh --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/negligible.omp.json')"
+eval "$(oh-my-posh init zsh --config $HOME/.config/oh-my-posh/themes/amro.omp.json)"
 
 # Add in zsh plugins
 zinit light zsh-users/zsh-syntax-highlighting

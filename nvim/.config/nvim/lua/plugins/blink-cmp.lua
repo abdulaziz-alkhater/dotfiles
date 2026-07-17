@@ -27,5 +27,12 @@ return {
         },
       },
     },
+    keymap = {
+      preset = "default",
+      ["<Tab>"] = { "select_next", "fallback" },
+      ["<S-Tab>"] = { "select_prev", "fallback" },
+      ["<Enter>"] = { "select_and_accept", "fallback" },
+      ["<C-h>"] = { "hide" },
+    },
   },
 }
