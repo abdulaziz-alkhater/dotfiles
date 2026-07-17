@@ -117,22 +117,16 @@ export LIBVIRT_DEFAULT_URI="qemu:///system"
 
 fastfetch 
 
-# export PATH=$PATH:/home/abdulaziz/.cargo/bin
 
-# include the script to handle the Anthropic API key for Avante 
+# include the script to handle the API keys for Deepseek and kimi-code
 
-source ~/.avante-anthropic-api-key.sh
-# 
-# 
-# . "$HOME/.local/share/../bin/env"
+source ~/.api-keys.sh
 
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/abdulaziz/.lmstudio/bin"
 # End of LM Studio CLI section
 
-
-. "$HOME/.local/bin/env"
 
 export STM32CubeMX_PATH=/Applications/STMicroelectronics/STM32CubeMX.app/Contents/Resources
 # kimi-code
