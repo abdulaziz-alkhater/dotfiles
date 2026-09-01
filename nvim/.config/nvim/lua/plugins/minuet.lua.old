@@ -1,0 +1,29 @@
+return {
+  "milanglacier/minuet-ai.nvim",
+  dependencies = { "nvim-lua/plenary.nvim" },
+  opts = function()
+    local mc = require("minuet.config")
+
+    return {
+      provider = "openai_compatible",
+      request_timeout = 5,
+      throttle = 0,
+      debounce = 300,
+      provider_options = {
+        openai_compatible = {
+          api_key = "KIMI_API_KEY",
+          end_point = "https://api.moonshot.ai/v1/chat/completions",
+          model = "kimi-k2.7-code-highspeed",
+          name = "Kimi K2.7 Code",
+          system = mc.default_system_prefix_first,
+          chat_input = mc.default_chat_input_prefix_first,
+          few_shots = mc.default_few_shots_prefix_first,
+          optional = {
+            temperature = 1,
+            max_tokens = 256,
+          },
+        },
+      },
+    }
+  end,
+}

@@ -25,6 +25,17 @@ return {
           max_tokens = 8192,
         },
       },
+      kimi = {
+        __inherited_from = "openai",
+        api_key_name = "KIMI_API_KEY",
+        endpoint = "https://api.moonshot.ai/v1",
+        model = "kimi-k2.7-code",
+        timeout = 30000,
+        extra_request_body = {
+          temperature = 1,
+          max_tokens = 8192,
+        },
+      },
       deepseek = {
         __inherited_from = "openai",
         api_key_name = "DEEPSEEK_API_KEY",
