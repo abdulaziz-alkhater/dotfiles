@@ -41,7 +41,7 @@ return {
 
 ## Active Configuration
 
-- **Theme:** Gruvbox (`lua/plugins/theme.lua`)
+- **Theme:** Ciapre — custom colorscheme in `colors/ciapre.lua` (matches the kitty Ciapre theme), selected in `lua/plugins/theme.lua`
 - **AI Assistants:** Avante (primary provider: LM Studio local at `127.0.0.1:1234`, fallback: DeepSeek) and Minuet AI (DeepSeek). Requires `DEEPSEEK_API_KEY` env var for DeepSeek providers; `LM_STUDIO_API_KEY` for local LM Studio.
 - **File Explorer:** Snacks.nvim (`<C-n>` opens explorer rooted at current file's directory)
 - **Navigation:** vim-tmux-navigator for seamless Tmux pane switching (`<C-h/j/k/l>`)

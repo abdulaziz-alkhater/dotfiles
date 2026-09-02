@@ -1,14 +1,11 @@
 -- Theme plugin file and configuration
 -- Abdulaziz Al Khater
+-- Ciapre: custom colorscheme in colors/ciapre.lua, matching the kitty Ciapre theme
 return {
-  -- add gruvbox
-  --  { "ellisonleao/gruvbox.nvim" },
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
-  -- Configure LazyVim to load gruvbox
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin",
+      colorscheme = "ciapre",
     },
   },
 }
