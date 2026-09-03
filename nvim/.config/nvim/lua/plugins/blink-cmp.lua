@@ -1,7 +1,6 @@
 return {
   "saghen/blink.cmp",
   dependencies = {
-    "Kaiser-Yang/blink-cmp-avante",
     "milanglacier/minuet-ai.nvim",
   },
   opts = {
@@ -13,13 +12,8 @@ return {
       },
     },
     sources = {
-      default = { "avante", "minuet", "lsp", "path", "snippets", "buffer" },
+      default = { "minuet", "lsp", "path", "snippets", "buffer" },
       providers = {
-        avante = {
-          module = "blink-cmp-avante",
-          name = "Avante",
-          opts = {},
-        },
         minuet = {
           name = "minuet",
           module = "minuet.blink",

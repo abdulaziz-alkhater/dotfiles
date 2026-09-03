@@ -136,9 +136,12 @@ fastfetch
 
 # export PATH=$PATH:/home/abdulaziz/.cargo/bin
 
-# include the script to handle the Anthropic API key for Avante 
+# export API keys using macOS keychain
 
-source ~/.config/api/api_keys.sh
+export DEEPSEEK_API_KEY=$(security find-generic-password -a "$USER" -s "DEEPSEEK_API_KEY" -w)
+export LMSTUDIO_API_KEY=$(security find-generic-password -a "$USER" -s "LMSTUDIO_API_KEY" -w)
+export MOONSHOT_API_KEY=$(security find-generic-password -a "$USER" -s "MOONSHOT_API_KEY" -w)
+
 # 
 # 
 # . "$HOME/.local/share/../bin/env"

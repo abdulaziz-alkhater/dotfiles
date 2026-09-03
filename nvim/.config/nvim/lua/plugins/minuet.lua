@@ -10,17 +10,15 @@ return {
       -- Trim completion text that duplicates what is already around the cursor
       -- (e.g. an extra `}` or `;`). Defaults are 0 for FIM providers, which
       -- disables this filtering entirely.
-      after_cursor_filter_length = 1,
-      before_cursor_filter_length = 1,
+      after_cursor_filter_length = 0,
+      before_cursor_filter_length = 0,
       provider_options = {
         openai_fim_compatible = {
-          -- Local server on the LAN; no real API key required.
-          api_key = function()
-            return "dummy"
-          end,
-          name = "codestral",
-          end_point = "http://dagobah.bbk:1234/v1/completions",
-          model = "mistralai/codestral-22b-v0.1",
+          -- Set DEEPSEEK_API_KEY in your environment.
+          api_key = "DEEPSEEK_API_KEY",
+          name = "deepseek",
+          end_point = "https://api.deepseek.com/beta/completions",
+          model = "deepseek-chat",
           optional = {
             max_tokens = 256,
             top_p = 0.9,
@@ -28,9 +26,9 @@ return {
         },
       },
       -- Use Minuet through blink.cmp instead of inline virtual text.
-      virtualtext = {
-        auto_trigger_ft = {},
-      },
+      -- virtualtext = {
+      --   auto_trigger_ft = {},
+      -- },
     }
   end,
 }
