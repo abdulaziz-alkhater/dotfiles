@@ -1,8 +1,5 @@
 return {
   "saghen/blink.cmp",
-  dependencies = {
-    "milanglacier/minuet-ai.nvim",
-  },
   opts = {
     completion = {
       menu = {
@@ -10,15 +7,8 @@ return {
           columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind", gap = 1 }, { "source_name" } },
         },
       },
-    },
-    sources = {
-      default = { "minuet", "lsp", "path", "snippets", "buffer" },
-      providers = {
-        minuet = {
-          name = "minuet",
-          module = "minuet.blink",
-          score_offset = 100,
-        },
+      trigger = {
+        prefetch_on_insert = false,
       },
     },
     keymap = {
