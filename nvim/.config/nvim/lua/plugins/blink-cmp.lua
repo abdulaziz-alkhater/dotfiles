@@ -17,6 +17,7 @@ return {
       ["<S-Tab>"] = { "select_prev", "fallback" },
       ["<Enter>"] = { "select_and_accept", "fallback" },
       ["<C-h>"] = { "hide" },
+      ["<C-m>"] = { "show" },
     },
   },
 }

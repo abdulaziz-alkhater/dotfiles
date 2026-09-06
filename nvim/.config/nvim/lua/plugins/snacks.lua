@@ -4,7 +4,11 @@ return {
     {
       "<C-n>",
       function()
-        local cwd = vim.fn.expand("%:p:h")
+        local buf = vim.api.nvim_buf_get_name(0)
+        local cwd = vim.fn.fnamemodify(buf, ":p:h")
+        if buf == "" or vim.fn.isdirectory(cwd) == 0 then
+          cwd = vim.fn.getcwd()
+        end
         Snacks.explorer({ cwd = cwd })
       end,
       desc = "Toggle snacks explorer",

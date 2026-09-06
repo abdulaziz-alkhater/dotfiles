@@ -1,190 +1,38 @@
-# AGENTS.md - Neovim Configuration Guide
+# AGENTS.md
 
-This document provides guidelines for agentic coding agents working with this Neovim configuration repository.
+Cross-machine **dotfiles** repo (Linux/Omarchy + macOS), mostly read-only config. It is NOT a Neovim-only repo — Neovim is just one of ~20 packages. Read this before editing.
 
-## Project Overview
+## Layout & deploy
 
-This is a **Neovim configuration** based on **LazyVim**, a modern Neovim configuration framework. The configuration uses Lua and follows LazyVim conventions.
+- **Repo root mirrors `$HOME`.** Each top-level dir is a deploy unit whose contents are paths relative to `$HOME`. e.g. `nvim/.config/nvim/init.lua` → `~/.config/nvim/init.lua`, `avatar/.face` → `~/.face`, `zshrc/.zshrc` → `~/.zshrc`.
+- **Deploy is manual, via GNU Stow (documented convention).** No installer, Makefile, CI, or pre-commit hooks exist here. Because contents start with `.config`/`.zshrc`/`.face`, Stow needs `--dotfiles`. Intended pattern (run by hand, not scripted): `stow --dotfiles --target="$HOME" <pkg>` from the repo root.
+- **Edits don't take effect on their own.** A change does nothing until it lands at its `~` path AND the owning app/service reloads or restarts. If deployed as symlinks (Stow default), editing the repo file edits the live file; if copied, redeploy first.
 
-## Build/Lint/Test Commands
+## Two platforms — edit the right tree
 
-### Formatting & Linting
-- **Lua formatting**: Uses `stylua` with configuration in `stylua.toml`
-- **Shell scripts**: Uses `shellcheck` and `shfmt` (configured via Mason)
-- **Python**: Uses `flake8` (configured via Mason)
+- **Linux (Omarchy/Arch, Wayland):** `hypr`, `waybar`, `rofi`, `swayosd`, `mako`, `kitty`, `alacritty`, `ghostty`, `wezterm`, `tmux`, `yazi`, `kanata`, `scripts`, `nvim`, `avatar`.
+- **macOS:** everything under `mac/` (aerospace, kanata, `.zshrc`).
+- Some tools exist on both with **separate, non-synced** copies (`zshrc/.zshrc` vs `mac/.zshrc`; `kanata/` vs `mac/.config/kanata/`). `mac/.zshrc` even leaks Linux `/home/abdulaziz/...` paths — these are real footguns, not bugs to "unify" without checking.
+- If your session is macOS (like this repo's working dir), most of the Linux/Wayland stack can't be launched or verified locally — validate by inspection.
 
-### Key Commands
-Since this is a configuration repository, there are no traditional build/test commands. Instead:
+## Footguns before you edit
 
-1. **Format Lua files**: `stylua lua/`
-2. **Check shell scripts**: `shellcheck scripts/*.sh`
-3. **Format shell scripts**: `shfmt -w scripts/*.sh`
-4. **Check Python scripts**: `flake8 scripts/*.py`
+- **Ghostty has two diverged configs.** Canonical (the one Ghostty reads) is `ghostty/.config/ghostty/config` → `~/.config/ghostty/config`. The stray `ghostty/config` deploys to `~/config` (unused) and disagrees with it — edit the `.config` one.
+- **Neovim: only `nvim/.config/nvim` is live.** `nvim.mycustom/` and `nvim.old/` are archived alternates. `*.old`, `*.bak`, and `Untitled` files are stale backups, never loaded.
+- **Vendored / tool-managed — don't hand-edit** (overwritten on reinstall): `kitty/.config/kitty/kitty-themes/` (vendored clone), `tmux/.config/tmux/plugins/` (TPM plugins; `tmux.conf` installs them via `~/.tmux/plugins/tpm`), `yazi/.config/yazi/flavors/` + `plugins/` (fetched by `ya pack`, pinned in `package.toml` by rev+hash).
+- **Hyprland is layered on Omarchy, not self-contained.** `hypr/.config/hypr/hyprland.conf` `source`s `~/.local/share/omarchy/default/hypr/*` and `~/.config/omarchy/current/theme/*` (an Omarchy-managed symlink). Most base config lives OUTSIDE this repo; these files are overrides. Don't judge or test Hyprland from this repo alone.
+- **Out-of-repo files are assumed present.** `zshrc/.zshrc` sources `~/.config/api/api_keys.sh` (mac: `~/.api-keys.sh`) for secrets, and mac expects an oh-my-posh theme at `~/.config/oh-my-posh/themes/amro.omp.json`. None are tracked — don't assume the repo is self-sufficient, and never commit real secrets.
+- **Kanata runs as a service.** Linux: systemd `kanata.service` (ExecStart pins `tokyo60.kbd`; other `*.kbd` are per-keyboard and must be switched manually). macOS: launchd `com.example.kanata.plist`. Editing a `.kbd` requires restarting the service/agent.
 
-### Neovim-specific
-- **Reload configuration**: `:Lazy sync` or restart Neovim
-- **Check health**: `:checkhealth`
-- **Update plugins**: `:Lazy update`
+## Verify / reload (no repo-wide test harness)
 
-## Code Style Guidelines
+There are no `npm test`/`make`/CI steps. Verify by reloading the target app:
+- **Lua (nvim):** format with `stylua` (2-space, 120-col — `nvim/.config/nvim/stylua.toml`); then `:checkhealth` / `:Lazy sync` inside Neovim.
+- **Waybar:** `waybar --validate`, then reload with `killall -HUP waybar`. `scripts/.local/scripts/launch-waybar` auto-restarts on `~/.config/waybar/*` edits (deploy it to `~/.local/scripts`, which zshrc adds to `$PATH`).
+- **Shell:** zshrc uses Zinit; a syntax check like `zsh -n <file>` is the cheap smoke test.
+- House style for Lua/JSONC/CSS is **2-space indentation**.
 
-### General Principles
-- Follow **LazyVim conventions** and patterns
-- Keep configurations **minimal** and **modular**
-- Use **descriptive names** for keymaps and options
-- Add **helpful comments** for non-obvious configurations
+## Conventions
 
-### Lua Code Style
-- **Indentation**: 2 spaces (configured in `stylua.toml`)
-- **Line length**: 120 characters maximum
-- **Imports**: Use `require()` for module imports
-- **Variables**: Use `local` for all variable declarations
-- **Functions**: Use descriptive names, prefer arrow functions for callbacks
-
-### File Organization
-```
-nvim/
-├── init.lua              # Entry point
-├── lua/
-│   ├── config/          # Core configuration
-│   │   ├── options.lua  # Neovim options
-│   │   ├── keymaps.lua  # Key mappings
-│   │   └── autocmds.lua # Auto commands
-│   └── plugins/         # Plugin specifications
-│       ├── example.lua  # Example plugin config
-│       ├── theme.lua    # Theme configuration
-│       └── [plugin].lua # Other plugin configs
-└── stylua.toml          # Lua formatter config
-```
-
-### Plugin Configuration Patterns
-
-#### Basic Plugin
-```lua
-return {
-  "author/plugin-name",
-  -- Optional: version, branch, tag
-  version = "*",
-  -- Dependencies
-  dependencies = { "other/plugin" },
-  -- Configuration
-  config = function()
-    require("plugin").setup({ options })
-  end,
-  -- Event triggers
-  event = "VeryLazy",
-  -- Key mappings
-  keys = {
-    { "<leader>xx", "<cmd>Command<CR>", desc = "Description" }
-  }
-}
-```
-
-#### Overriding LazyVim Defaults
-```lua
-{
-  "LazyVim/LazyVim",
-  opts = {
-    -- Override default options
-    colorscheme = "gruvbox",
-  },
-}
-```
-
-### Keymap Conventions
-- Use `vim.keymap.set()` for defining keymaps
-- Always include `desc` parameter for documentation
-- Follow LazyVim's keymap prefixes:
-  - `<leader>`: User-defined leader key (default: space)
-  - `<C-...>`: Control combinations
-  - `<A-...>`: Alt/Meta combinations
-
-Example:
-```lua
-local map = vim.keymap.set
-map("n", "<leader>ff", "<cmd>Telescope find_files<CR>", { desc = "Find files" })
-```
-
-### Error Handling
-- Use `pcall()` for potentially failing operations
-- Add validation for user inputs in custom functions
-- Log errors using `vim.notify()` with appropriate log level
-
-### Naming Conventions
-- **Variables**: `snake_case`
-- **Functions**: `snake_case`
-- **Constants**: `UPPER_SNAKE_CASE`
-- **Plugin config files**: Match plugin name (e.g., `telescope.lua`)
-
-### Comments
-- Use `--` for single-line comments
-- Use `--[[ ... ]]` for multi-line comments
-- Add comments for:
-  - Non-obvious configuration choices
-  - Workarounds for plugin issues
-  - Custom functionality explanations
-  - TODO items
-
-### Type Annotations
-- Use `---@param` and `---@return` for function documentation
-- Add `---@type` annotations for complex tables
-- Follow LazyVim's type annotation patterns
-
-Example:
-```lua
----@class PluginConfig
----@field enabled boolean
----@field options table
-
----@param config PluginConfig
----@return boolean
-local function setup_plugin(config)
-  -- implementation
-end
-```
-
-## Plugin Management
-
-### Adding New Plugins
-1. Create new file in `lua/plugins/` directory
-2. Follow plugin configuration patterns
-3. Test with `:Lazy sync`
-4. Add necessary keymaps to `lua/config/keymaps.lua` if needed
-
-### Modifying Existing Plugins
-1. Locate plugin file in `lua/plugins/`
-2. Modify configuration while preserving existing patterns
-3. Test changes with `:Lazy reload [plugin-name]`
-
-### Troubleshooting
-- Check `:Lazy log` for plugin loading issues
-- Use `:Lazy debug` for detailed debugging
-- Verify Mason installations with `:Mason`
-
-## Development Workflow
-
-1. **Make changes** to configuration files
-2. **Format code** with stylua
-3. **Reload Neovim** or use `:Lazy sync`
-4. **Test functionality** in Neovim
-5. **Commit changes** with descriptive messages
-
-## Git Guidelines
-
-- **Commit messages**: Use conventional commits format
-- **Branch naming**: `feature/`, `fix/`, `docs/`, `refactor/`
-- **PR descriptions**: Include what changed and why
-
-## Resources
-
-- [LazyVim Documentation](https://lazyvim.github.io/)
-- [Neovim Lua Guide](https://github.com/nanotee/nvim-lua-guide)
-- [Stylua Configuration](https://github.com/JohnnyMorganz/StyLua)
-
-## Notes for Agents
-
-- This is a **configuration repository**, not a traditional codebase
-- Focus on **Neovim/Lua patterns** not general programming patterns
-- Preserve **backward compatibility** when modifying configurations
-- Test changes **in Neovim** before considering them complete
-- Follow **LazyVim community conventions** for plugin configurations
+- Commit messages: **conventional commits** (`type: summary`). Branches: `feature/`, `fix/`, `docs/`, `refactor/`.
+- Deeper per-tool guidance lives next to the config — consult it before rewriting style opinions: `nvim/.config/nvim/CLAUDE.md` (LazyVim/plugin patterns) and `waybar/.config/waybar/AGENTS.md` (waybar JSONC/CSS).
