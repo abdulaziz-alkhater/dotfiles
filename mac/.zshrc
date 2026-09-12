@@ -19,7 +19,8 @@ export VISUAL='nvim'
 export SYSTEMD_EDITOR='nvim'
 
 # Add in oh-my-posh
-eval "$(oh-my-posh init zsh --config $HOME/.config/oh-my-posh/themes/abdulaziz.json)"
+# eval "$(oh-my-posh init zsh --config $HOME/.config/oh-my-posh/themes/abdulaziz.json)"
+eval "$(oh-my-posh init zsh --config 'negligible')"
 
 # Add in zsh plugins
 zinit light zsh-users/zsh-syntax-highlighting
