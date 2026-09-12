@@ -1,11 +1,12 @@
 -- Theme plugin file and configuration
 -- Abdulaziz Al Khater
--- Ciapre: custom colorscheme in colors/ciapre.lua, matching the kitty Ciapre theme
+-- Moss: custom colorscheme in colors/moss.lua, matching the kitty Moss theme
+-- (previous scheme: ciapre, still in colors/ciapre.lua)
 return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "ciapre",
+      colorscheme = "moss",
     },
   },
 }
